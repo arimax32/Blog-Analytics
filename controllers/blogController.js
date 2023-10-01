@@ -29,8 +29,12 @@ const analyzeData = (blogs,cacheKey) => {
 const cachedResults = _.memoize(analyzeData,cachePeriod)
 
 const searchFilter = (blogs, searchWord) => {
+    let allBlogs = false
+    if(searchWord === ""){
+        allBlogs = true
+    }
     return _.filter(blogs,(blog) => {
-        return searchUtil(blog.title,searchWord)!==undefined;
+        return searchUtil(blog.title,searchWord)!==undefined || allBlogs;
     }) 
 }
 const cachedSearch = _.memoize(searchFilter,cachePeriod)
@@ -39,5 +43,11 @@ module.exports = {
 
     getBlogStats: async (req,res) => { res.json(cachedResults(req.blogs,"")); },
 
-    getFilteredBlogs: async (req,res) => { res.json(cachedSearch(req.blogs,req.query.query.toLocaleLowerCase())); },
+    getFilteredBlogs: async (req,res) => { 
+        let searchQuery = req.query.query;
+        if(searchQuery===undefined){
+            searchQuery = "";
+        } 
+        res.json(cachedSearch(req.blogs,searchQuery.toLocaleLowerCase())); 
+    },
 };
