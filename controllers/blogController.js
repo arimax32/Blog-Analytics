@@ -41,9 +41,9 @@ const cachedSearch = _.memoize(searchFilter,cachePeriod)
 
 module.exports = {
 
-    getBlogStats: async (req,res) => { res.json(cachedResults(req.blogs,"")); },
+    getBlogStats: (req,res) => { res.json(cachedResults(req.blogs,"")); },
 
-    getFilteredBlogs: async (req,res) => { 
+    getFilteredBlogs: (req,res) => { 
         let searchQuery = req.query.query;
         if(searchQuery===undefined){
             searchQuery = "";
