@@ -6,7 +6,7 @@ const start = new Date();
 
 const cachePeriod = (...args) => {
     let argVal = "";
-    if(argVal.length){
+    if(args.length){
         argVal = _.reduce(args[0],(acc,arg) => acc + arg.id,"") + args[1];
     }
     const date = new Date()
