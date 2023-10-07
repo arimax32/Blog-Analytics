@@ -15,7 +15,7 @@ const getBlogData = async () => {
 const cachedCall = _.memoize(getBlogData,cachePeriod)
 
 const fetchBlogs = async (req,res,next) => {
-    const result = await getBlogData();
+    const result = await cachedCall();
     if(result instanceof Error || result === undefined){
         res.status(404).send(`Error occured in fetching data from the Third Party Source -: \n${result}`)
     }
